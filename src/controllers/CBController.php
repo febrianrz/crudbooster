@@ -117,6 +117,8 @@ class CBController extends Controller
 
     public $parent_id = null;
 
+    public $parent_list = [];
+
     public $hide_form = [];
 
     public $index_return = false; //for export
@@ -167,6 +169,7 @@ class CBController extends Controller
         $this->data['script_js'] = $this->script_js;
         $this->data['style_css'] = $this->style_css;
         $this->data['sub_module'] = $this->sub_module;
+        $this->data['parent_list'] = $this->parent_list;
         $this->data['parent_field'] = (g('parent_field')) ?: $this->parent_field;
         $this->data['parent_id'] = (g('parent_id')) ?: $this->parent_id;
 
@@ -1447,6 +1450,30 @@ class CBController extends Controller
         Session::put('current_row_id', $id);
 
         return view('crudbooster::default.form', compact('row', 'page_menu', 'page_title', 'command', 'id'));
+    }
+
+    public function getDetail2($id, $view=null,$data=[])
+    {
+        $this->cbLoader();
+        $row = DB::table($this->table)->where($this->primary_key, $id)->first();
+
+        if (! CRUDBooster::isRead() && $this->global_privilege == false || $this->button_detail == false) {
+            CRUDBooster::insertLog(trans("crudbooster.log_try_view", [
+                'name' => $row->{$this->title_field},
+                'module' => CRUDBooster::getCurrentModule()->name,
+            ]));
+            CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+        }
+
+        $module = CRUDBooster::getCurrentModule();
+
+        $page_menu = Route::getCurrentRoute()->getActionName();
+        $page_title = trans("crudbooster.detail_data_page_title", ['module' => $module->name, 'name' => $row->{$this->title_field}]);
+        $command = 'detail';
+
+        Session::put('current_row_id', $id);
+
+        return view($view?$view:'crudbooster::default.form', compact('row', 'page_menu', 'page_title', 'command', 'id','data'));
     }
 
     public function getImportData()

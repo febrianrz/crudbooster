@@ -84,7 +84,7 @@
 </head>
 <body class="@php echo (Session::get('theme_color'))?:'skin-blue'; echo ' '; echo config('crudbooster.ADMIN_LAYOUT'); @endphp {{($sidebar_mode)?:''}}">
 <div id='app' class="wrapper">
-
+        
     <!-- Header -->
 @include('crudbooster::header')
 
@@ -145,9 +145,18 @@
                                @if($ib['onMouseOut']) onMouseOut='return {{$ib["onMouseOut"]}}' @endif
                                @if($ib['onKeyDown']) onKeyDown='return {{$ib["onKeyDown"]}}' @endif
                                @if($ib['onLoad']) onLoad='return {{$ib["onLoad"]}}' @endif
+                               @if($ib['modal_view']) data-toggle="modal" data-target="#id-{{ $ib['modal_view'] }}" @endif
                             >
                                 <i class='{{$ib["icon"]}}'></i> {{$ib["label"]}}
+                                
                             </a>
+                            @if($ib['modal_view']) 
+                                @include($ib['modal_view'],[
+                                    'modal_id'=>"id-".str_replace('.','-',$ib['modal_view']),
+                                    'modal_action'=>$ib['modal_action'],
+                                    'modal_method'=>$ib['modal_method'],
+                                ]) 
+                            @endif
                     @endforeach
                 @endif
                 <!-- END BUTTON -->
