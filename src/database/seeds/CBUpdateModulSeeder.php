@@ -34,5 +34,17 @@ class AddMigrationModul extends Seeder {
             'is_protected' => 1,
             'is_active' => 1,
         ]);
+
+        DB::table('cms_moduls')->updateOrInsert([
+            'name' => 'Template Print',
+            'icon' => 'fa fa-file',
+            'path' => 'printout_templates',
+            'table_name' => 'cms_printout_templates',
+            'controller' => 'PrintoutTemplateController',
+        ],[
+            'created_at' => date('Y-m-d H:i:s'),
+            'is_protected' => 1,
+            'is_active' => 1,
+        ]);
    }
 }

@@ -157,6 +157,8 @@
                                     <span>{{ trans('crudbooster.List_Email_Template') }}</span></a></li>
                         </ul>
                     </li>
+                    <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/printout_templates*')) ? 'active' : '' }}"><a href='{{Route("PrintoutTemplateControllerGetIndex")}}'><i
+                        class='fa fa-file'></i> <span>{{ __('Template Print') }}</span></a></li>
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/migrations*')) ? 'active' : '' }}"><a href='{{Route("MigrationControllerGetIndex")}}'><i
                         class='fa fa-database'></i> <span>{{ __('Migration') }}</span></a></li>
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/sync_table*')) ? 'active' : '' }}"><a href='{{Route("SynctableControllerGetIndex")}}'><i

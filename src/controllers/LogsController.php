@@ -11,7 +11,7 @@ class LogsController extends CBController
         $this->primary_key = 'id';
         $this->title_field = "ipaddress";
         $this->button_bulk_action = true;
-        $this->button_export = false;
+        $this->button_export = true;
         $this->button_import = false;
         $this->button_add = false;
         $this->button_edit = false;

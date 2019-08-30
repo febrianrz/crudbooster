@@ -128,6 +128,12 @@
                         </a>
                     @endif
 
+                    @if($print_single && CRUDBooster::getCurrentMethod() == 'getDetail')
+                        <a href="{{ CRUDBooster::mainpath('detail/'.CRUDBooster::getCurrentId()).'?print_single=true&'.http_build_query($print_single).'&'.http_build_query(Request::all()) }}"   title='Export Data' class="btn btn-sm btn-primary">
+                            <i class="fa fa-file-word-o"></i> {{ __('Download') }}
+                        </a>
+                    @endif
+
                     @if($button_import && CRUDBooster::getCurrentMethod() == 'getIndex')
                         <a href="{{ CRUDBooster::mainpath('import-data') }}" id='btn_import_data' data-url-parameter='{{$build_query}}' title='Import Data'
                            class="btn btn-sm btn-primary btn-import-data">

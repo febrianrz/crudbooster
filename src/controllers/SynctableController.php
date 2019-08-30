@@ -73,24 +73,27 @@ class SynctableController extends CBController
             "value"=> 1
         ];
 
-        $this->index_button[] = [
-            'label' => 'Export Sync',
-            'url'   => CRUDBooster::mainpath('export_sync'),
-            'icon'  => 'fa fa-download',
-            'color' => 'warning'
-        ];
-        $this->index_button[] = [
-            'label' => 'Clear Cache',
-            'url'   => CRUDBooster::mainpath('clear_sync'),
-            'icon'  => 'fa fa-times',
-            'color' => 'danger'
-        ];
-        $this->index_button[] = [
-            'label' => 'Import Sync',
-            'url'   => CRUDBooster::mainpath('import_sync'),
-            'icon'  => 'fa fa-refresh',
-            'color' => 'info'
-        ];
+
+        if(CRUDBooster::getCurrentMethod() == "getIndex"){
+            $this->index_button[] = [
+                'label' => 'Export Sync',
+                'url'   => CRUDBooster::mainpath('export_sync'),
+                'icon'  => 'fa fa-download',
+                'color' => 'warning'
+            ];
+            $this->index_button[] = [
+                'label' => 'Clear Cache',
+                'url'   => CRUDBooster::mainpath('clear_sync'),
+                'icon'  => 'fa fa-times',
+                'color' => 'danger'
+            ];
+            $this->index_button[] = [
+                'label' => 'Import Sync',
+                'url'   => CRUDBooster::mainpath('import_sync'),
+                'icon'  => 'fa fa-refresh',
+                'color' => 'info'
+            ];
+        }
     }
 
     public function getApproachLabel($id)

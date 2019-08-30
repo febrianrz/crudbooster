@@ -1770,7 +1770,20 @@ class CRUDBooster
 	        |
 	        */
 	        $this->load_css = array();
-	        
+            
+            /*
+	        | ---------------------------------------------------------------------- 
+	        | Print Single Data On Detail View 
+	        | ---------------------------------------------------------------------- 
+	        | URL of your css each array 
+	        |  $this->print_single = [
+            |        "print_key"    => "migration_file"  //refer to column "key" on Template Print
+            |    ];
+	        |
+	        */
+            $this->print_single = array();
+            
+
 	        
 	    }
 

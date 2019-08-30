@@ -3,19 +3,20 @@
 error_reporting(E_ALL ^ E_NOTICE);
 
 use CB;
+use Schema;
 use CRUDBooster;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\PDF;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
-use Schema;
 
 class CBController extends Controller
 {
@@ -125,6 +126,8 @@ class CBController extends Controller
 
     public $sidebar_mode = 'normal';
 
+    public $print_single = false;
+
     public function cbLoader()
     {
         $this->cbInit();
@@ -172,6 +175,7 @@ class CBController extends Controller
         $this->data['parent_list'] = $this->parent_list;
         $this->data['parent_field'] = (g('parent_field')) ?: $this->parent_field;
         $this->data['parent_id'] = (g('parent_id')) ?: $this->parent_id;
+        $this->data['print_single'] = $this->print_single;
 
         if ($this->sidebar_mode == 'mini') {
             $this->data['sidebar_mode'] = 'sidebar-mini';
@@ -1432,31 +1436,64 @@ class CBController extends Controller
     {
         $this->cbLoader();
         $row = DB::table($this->table)->where($this->primary_key, $id)->first();
-
-        if (! CRUDBooster::isRead() && $this->global_privilege == false || $this->button_detail == false) {
-            CRUDBooster::insertLog(trans("crudbooster.log_try_view", [
-                'name' => $row->{$this->title_field},
-                'module' => CRUDBooster::getCurrentModule()->name,
-            ]));
-            CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+        
+        if(g('print_single') && $this->print_single){
+            if(g('print_key')){
+                $templateForPrint = DB::table('cms_printout_templates')->where('key',g('print_key'))->first();
+            } else {
+                $templateForPrint = DB::table('cms_printout_templates')->where('table_name',$this->table)->where('type','Single Row')->first();
+            }
+            
+            if(!$templateForPrint){
+                CRUDBooster::redirectBack('Template Tidak Ditemukan','danger');
+            }
+            return $this->printSingleWord($templateForPrint);
+        } else {
+            if (! CRUDBooster::isRead() && $this->global_privilege == false || $this->button_detail == false) {
+                CRUDBooster::insertLog(trans("crudbooster.log_try_view", [
+                    'name' => $row->{$this->title_field},
+                    'module' => CRUDBooster::getCurrentModule()->name,
+                ]));
+                CRUDBooster::redirect(CRUDBooster::adminPath(), trans('crudbooster.denied_access'));
+            }
+    
+            $module = CRUDBooster::getCurrentModule();
+    
+            $page_menu = Route::getCurrentRoute()->getActionName();
+            $page_title = trans("crudbooster.detail_data_page_title", ['module' => $module->name, 'name' => $row->{$this->title_field}]);
+            $command = 'detail';
+    
+            Session::put('current_row_id', $id);
+    
+            return view('crudbooster::default.form', compact('row', 'page_menu', 'page_title', 'command', 'id'));
         }
 
-        $module = CRUDBooster::getCurrentModule();
+        
+    }
 
-        $page_menu = Route::getCurrentRoute()->getActionName();
-        $page_title = trans("crudbooster.detail_data_page_title", ['module' => $module->name, 'name' => $row->{$this->title_field}]);
-        $command = 'detail';
+    public function printSingleWord($template,$arrayKeyValue=[]){
+        $row = DB::table($this->table)->where($this->primary_key, CRUDBooster::getCurrentId())->first();
+        $templateProcessor = new TemplateProcessor(storage_path('app/'.$template->file));
+        if(count($arrayKeyValue) == 0){
+            $columns = Schema::getColumnListing($this->table);
+            foreach($columns as $column){
+                $templateProcessor->setValue($column, $this->decode($row->{$column},false));
+            }
+        } else {
 
-        Session::put('current_row_id', $id);
-
-        return view('crudbooster::default.form', compact('row', 'page_menu', 'page_title', 'command', 'id'));
+        }
+        
+        $nama_file = str_replace(' ','',$template->key);
+        $pathToFile = storage_path("app/{$template->file_name}.docx");
+        $templateProcessor->saveAs($pathToFile); 	
+        return response()->download($pathToFile)->deleteFileAfterSend(true);
     }
 
     public function getDetail2($id, $view=null,$data=[])
     {
         $this->cbLoader();
         $row = DB::table($this->table)->where($this->primary_key, $id)->first();
-
+        
         if (! CRUDBooster::isRead() && $this->global_privilege == false || $this->button_detail == false) {
             CRUDBooster::insertLog(trans("crudbooster.log_try_view", [
                 'name' => $row->{$this->title_field},
@@ -1772,6 +1809,37 @@ class CBController extends Controller
         }
     }
 
+    protected function fromHtmlList($html){
+        $html = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $html);
+        // dd($html);
+        $html = str_replace('&nbsp;',' ',$html);
+        $html = str_replace('<ol>','',$html);
+        $html = str_replace('</ol>','',$html);
+        $html = str_replace('</li>','',$html);
+        $arr = explode("<li>",$html);
+        $tmp = [];
+        foreach($arr as $row => $value){
+            if($this->decode($value,false) != ""){
+                array_push($tmp,$this->decode($value,false));
+            }
+        }
+        // dd($arr);
+        return $tmp;
+    }
+
+    protected function decode($string,$cek=true){
+        if($cek){
+            $string = html_entity_decode($string);
+            $string = preg_replace("/\s/",'',$string);
+            $string = preg_replace("/&nbsp;/",' ',$string);
+            $string = strip_tags($string);
+            return $string;
+        } else {
+            $string = preg_replace("/&nbsp;/",' ',$string);
+            return strip_tags($string);
+        }
+    }
+
     public function actionButtonSelected($id_selected, $button_name)
     {
     }
@@ -1807,4 +1875,6 @@ class CBController extends Controller
     public function hook_after_delete($id)
     {
     }
+
+    
 }

@@ -28,6 +28,9 @@ class MigrationController extends CBController
         $this->button_edit = false;
         $this->button_delete = true;
         $this->global_privilege = false;
+        // $this->print_single = [
+        //     'print_key'       => 'migration_file'
+        // ];
 
         $this->col = [];
         $this->col[] = ["label" => "ID", "name" => "id"];
@@ -41,19 +44,21 @@ class MigrationController extends CBController
         $this->form[] = ["label" => "Migration File", "type"=>"text", "name" => "migration","help"=>''];
         $this->form[] = ["label" => "Batch", "type"=>"text", "name" => "batch","help"=>'','validation'=>'required|numeric'];
         
-
-        $this->index_button[] = [
-            'label' => 'Migrate',
-            'url'   => CRUDBooster::mainpath('migrate'),
-            'icon'  => 'fa fa-gear',
-            'color' => 'warning'
-        ];
-        $this->index_button[] = [
-            'label' => 'Seed',
-            'url'   => CRUDBooster::mainpath('seed'),
-            'icon'  => 'fa fa-gear',
-            'color' => 'danger'
-        ];
+        if(CRUDBooster::getCurrentMethod() == "getIndex"){
+            $this->index_button[] = [
+                'label' => 'Migrate',
+                'url'   => CRUDBooster::mainpath('migrate'),
+                'icon'  => 'fa fa-gear',
+                'color' => 'warning'
+            ];
+            $this->index_button[] = [
+                'label' => 'Seed',
+                'url'   => CRUDBooster::mainpath('seed'),
+                'icon'  => 'fa fa-gear',
+                'color' => 'danger'
+            ];
+        }
+        
     }
 
  
