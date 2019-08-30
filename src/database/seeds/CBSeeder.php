@@ -25,6 +25,21 @@ class CBSeeder extends Seeder
     }
 }
 
+class Cms_usersSeeder extends Seeder {
+     public function run()
+    {
+        DB::table('cms_users')->insert([
+            'name'      => 'Superuser',
+            'photo'     => NULL,
+            'email'     => 'admin@crudbooster.com',
+            'password'  => bcrypt('123456'),
+            'id_cms_privileges' => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'status'    => 'Active'
+        ]);
+    }
+}
+
 class CmsEmailTemplates extends Seeder
 {
     public function run()
@@ -458,7 +473,7 @@ class Cms_synctableSeeder extends Seeder
     }
 
 }
-class Cms_usersSeeder extends Seeder
+class Cms_synctableSeeder extends Seeder
 {
     public function run()
     {
