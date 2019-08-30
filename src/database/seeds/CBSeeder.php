@@ -470,30 +470,35 @@ class Cms_usersSeeder extends Seeder
                     'column_key'    => 'type,path',
                     'is_active'     => 1,
                     'created_at'    => date('Y-m-d H:i:s'),
+                    'approach'      => 2,
                 ],
                 [
                     'table_name'    => 'cms_moduls',
                     'column_key'    => 'path,table_name',
                     'is_active'     => 1,
                     'created_at'    => date('Y-m-d H:i:s'),
+                    'approach'      => 2,
                 ],
                 [
                     'table_name'    => 'cms_privileges',
                     'column_key'    => 'name',
                     'is_active'     => 1,
                     'created_at'    => date('Y-m-d H:i:s'),
+                    'approach'      => 2,
                 ],
                 [
                     'table_name'    => 'cms_settings',
                     'column_key'    => 'name',
                     'is_active'     => 1,
                     'created_at'    => date('Y-m-d H:i:s'),
+                    'approach'      => 2,
                 ],
                 [
                     'table_name'    => 'cms_sync_tables',
                     'column_key'    => 'table_name',
                     'is_active'     => 1,
                     'created_at'    => date('Y-m-d H:i:s'),
+                    'approach'      => 2,
                 ],
             ]);
         }

@@ -17,7 +17,7 @@ class CreateCmsSyncTable extends Migration
             $table->increments('id');
             $table->string('table_name');
             $table->string('column_key');
-            $table->unsignedInteger('approach');
+            $table->unsignedInteger('approach')->default(2);
             $table->boolean('is_active')->default(false);
             $table->timestamps();
             $table->softDeletes();
