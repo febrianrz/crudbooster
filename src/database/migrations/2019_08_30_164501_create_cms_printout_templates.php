@@ -19,6 +19,8 @@ class CreateCmsPrintoutTemplates extends Migration
             $table->string('file_name')->nullable();
             $table->string('file_type')->default('word');
             $table->string('key');
+            $table->string('model_path')->nullable();
+            $table->string('overwrite_json')->nullable();
             $table->string('type')->comment('single data / batch data');
             $table->string('description')->nullable();
             $table->string('file')->nullable();

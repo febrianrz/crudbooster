@@ -60,12 +60,15 @@ class PrintoutTemplateController extends CBController
 
         $this->form[] = ["label" => "Table Name", "name" => "table_name", "type" => "select2", "dataenum" => $tables_list, 'required' => true];
         $this->form[] = ["label" => "Key", "type"=>"text", "name" => "key","help"=>'unique','required'=>true];
+        
+        
         $this->form[] = ["label" => "File name", "type"=>"text", "name" => "file_name","help"=>'Nama file ketika dicetak','required'=>true];
         $this->form[] = ["label" => "Ext", "type"=>"select2", "name" => "file_type","dataenum"=>'Word;Excel','required'=>true];
         $this->form[] = ["label" => "Tipe", "type"=>"select2", "name" => "type","dataenum"=>'Single Row;Batch Data','required'=>true];
         $this->form[] = ["label" => "File Template", "type"=>"upload", "name" => "file",'required'=>true];
         $this->form[] = ["label" => "Description", "type"=>"textarea", "name" => "description"];
-        
+        $this->form[] = ["label" => "Model", "type"=>"text", "name" => "model_path","help"=>'Laravel Eloquent Model ex: \App\PurchaseOrder, use if you need overwrite field with relation'];
+        $this->form[] = ["label" => "Overwrite", "type"=>"wysiwyg", "name" => "overwrite_json","help"=>'Overwrite field at template with relation model. Json Type: Ex: { ["buyer_name" : "buyer.name"] }'];
         
 
         

@@ -1432,7 +1432,7 @@ class CBController extends Controller
         CRUDBooster::redirect($url, trans("crudbooster.alert_delete_data_success"), 'success');
     }
 
-    public function getDetail($id)
+    public function getDetail($id, $view=null,$data=[])
     {
         $this->cbLoader();
         $row = DB::table($this->table)->where($this->primary_key, $id)->first();
@@ -1465,24 +1465,41 @@ class CBController extends Controller
     
             Session::put('current_row_id', $id);
     
-            return view('crudbooster::default.form', compact('row', 'page_menu', 'page_title', 'command', 'id'));
+            return view($view?$view:'crudbooster::default.form', compact('row', 'page_menu', 'page_title', 'command', 'id','data'));
         }
 
         
     }
 
     public function printSingleWord($template,$arrayKeyValue=[]){
-        $row = DB::table($this->table)->where($this->primary_key, CRUDBooster::getCurrentId())->first();
-        $templateProcessor = new TemplateProcessor(storage_path('app/'.$template->file));
-        if(count($arrayKeyValue) == 0){
-            $columns = Schema::getColumnListing($this->table);
-            foreach($columns as $column){
-                $templateProcessor->setValue($column, $this->decode($row->{$column},false));
-            }
+        if($template->model_path){
+            $modelString = $template->model_path;
+            $row = $modelString::findOrFail(CRUDBooster::getCurrentId());
         } else {
-
+            $row = DB::table($this->table)->where($this->primary_key, CRUDBooster::getCurrentId())->first();
         }
-        
+
+        $templateProcessor = new TemplateProcessor(storage_path('app/'.$template->file));
+
+        /** first replacement with schema column */
+        $columns = Schema::getColumnListing($this->table);
+        foreach($columns as $column){
+            $templateProcessor->setValue($column, $this->decode($row->{$column},false));
+        }
+        /** end replacement with schema column */
+        if($template->overwrite_json){
+            $arrOverwrite = (array) json_decode(strip_tags($template->overwrite_json));
+            foreach($arrOverwrite as $a => $v){
+                $array_explode = explode('.',$v);
+                $value = array_reduce(explode('.', $v), function ($obj, $method) use ($row){
+                    return $row->$method;
+                }, $object);
+                
+                $templateProcessor->setValue($a, $this->decode($value,false));
+            }
+        }
+
+
         $nama_file = str_replace(' ','',$template->key);
         $pathToFile = storage_path("app/{$template->file_name}.docx");
         $templateProcessor->saveAs($pathToFile); 	
