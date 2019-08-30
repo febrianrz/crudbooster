@@ -24,8 +24,8 @@ class MigrationController extends CBController
         $this->button_bulk_action = true;
         $this->button_export = false;
         $this->button_import = false;
-        $this->button_add = true;
-        $this->button_edit = true;
+        $this->button_add = false;
+        $this->button_edit = false;
         $this->button_delete = true;
         $this->global_privilege = false;
 
