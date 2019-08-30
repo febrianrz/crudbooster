@@ -157,8 +157,10 @@
                                     <span>{{ trans('crudbooster.List_Email_Template') }}</span></a></li>
                         </ul>
                     </li>
+                    <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/migrations*')) ? 'active' : '' }}"><a href='{{Route("MigrationControllerGetIndex")}}'><i
+                        class='fa fa-database'></i> <span>{{ __('Migration') }}</span></a></li>
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/sync_table*')) ? 'active' : '' }}"><a href='{{Route("SynctableControllerGetIndex")}}'><i
-                        class='fa fa-flag'></i> <span>{{ __('Sync Table') }}</span></a></li>
+                        class='fa fa-refresh'></i> <span>{{ __('Sync Table') }}</span></a></li>
 
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/logs*')) ? 'active' : '' }}"><a href='{{Route("LogsControllerGetIndex")}}'><i
                                     class='fa fa-flag'></i> <span>{{ trans('crudbooster.Log_User_Access') }}</span></a></li>

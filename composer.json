@@ -16,6 +16,10 @@
         {
             "name": "Ferry",
             "email": "ferry@crocodic.com"
+        },
+        {
+            "name": "Febrian Reza",
+            "email": "febrianrz@gmail.com"
         }
     ],
     "minimum-stability": "dev",
@@ -27,7 +31,8 @@
         "unisharp/laravel-filemanager": "1.7.7",
         "intervention/imagecache":"2.3.3",
         "imanghafoori/laravel-heyman": "2.*",
-        "imanghafoori/laravel-widgetize": "1.8.*"
+        "imanghafoori/laravel-widgetize": "1.8.*",
+        "rap2hpoutre/laravel-log-viewer"
     },
     "autoload": {
         "psr-4": {

@@ -114,6 +114,8 @@ Route::group([
         Route::get('sync_table/export_sync', 'SynctableController@export_sync');
         Route::get('sync_table/clear_sync', 'SynctableController@clear_sync');
         Route::get('sync_table/import_sync', 'SynctableController@import_sync');
+        Route::get('migrations/migrate', 'MigrationController@migrate');
+        Route::get('migrations/seed', 'MigrationController@seed');
         
     } catch (Exception $e) {
 

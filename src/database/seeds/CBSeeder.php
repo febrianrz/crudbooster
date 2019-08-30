@@ -20,7 +20,7 @@ class CBSeeder extends Seeder
         $this->call('Cms_settingsSeeder');
         $this->call('CmsEmailTemplates');
         $this->call('Cms_synctableSeeder');
-
+        $this->call(CBUpdateModulSeeder::class);
         $this->command->info('Updating the data completed !');
     }
 }
@@ -28,10 +28,11 @@ class CBSeeder extends Seeder
 class Cms_usersSeeder extends Seeder {
      public function run()
     {
-        DB::table('cms_users')->insert([
+        DB::table('cms_users')->updateOrInsert([
+            'email'     => 'admin@crudbooster.com',
+        ],[
             'name'      => 'Superuser',
             'photo'     => NULL,
-            'email'     => 'admin@crudbooster.com',
             'password'  => bcrypt('123456'),
             'id_cms_privileges' => 1,
             'created_at'    => date('Y-m-d H:i:s'),
@@ -44,10 +45,12 @@ class CmsEmailTemplates extends Seeder
 {
     public function run()
     {
-        DB::table('cms_email_templates')->insert([
+        DB::table('cms_email_templates')->updateOrInsert([
+            'slug' => 'forgot_password_backend',
+        ],[
                 'created_at' => date('Y-m-d H:i:s'),
                 'name' => 'Email Template Forgot Password Backend',
-                'slug' => 'forgot_password_backend',
+                
                 'content' => '<p>Hi,</p><p>Someone requested forgot password, here is your new password : </p><p>[password]</p><p><br></p><p>--</p><p>Regards,</p><p>Admin</p>',
                 'description' => '[password]',
                 'from_name' => 'System',
@@ -465,14 +468,6 @@ class Cms_modulsSeeder extends Seeder
 }
 
 
-class Cms_synctableSeeder extends Seeder
-{
-    public function run()
-    {
-
-    }
-
-}
 class Cms_synctableSeeder extends Seeder
 {
     public function run()
