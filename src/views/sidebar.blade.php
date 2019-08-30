@@ -164,6 +164,9 @@
 
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/logs*')) ? 'active' : '' }}"><a href='{{Route("LogsControllerGetIndex")}}'><i
                                     class='fa fa-flag'></i> <span>{{ trans('crudbooster.Log_User_Access') }}</span></a></li>
+
+                    <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/log_system*')) ? 'active' : '' }}"><a href='{{ url(config('crudbooster.ADMIN_PATH')."/log_system") }}' target="_blank"><i
+                                        class='fa fa-flag'></i> <span>{{ __('Laravel Log') }}</span></a></li>
                 @endif
 
             </ul><!-- /.sidebar-menu -->

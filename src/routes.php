@@ -92,7 +92,7 @@ Route::group([
             CRUDBooster::routeController('/', 'AdminController', $namespace = '\crocodicstudio\crudbooster\controllers');
         }
     }
-
+    Route::get('log_system', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     CRUDBooster::routeController('api_generator', 'ApiCustomController', $namespace = '\crocodicstudio\crudbooster\controllers');
 
     try {
@@ -116,6 +116,7 @@ Route::group([
         Route::get('sync_table/import_sync', 'SynctableController@import_sync');
         Route::get('migrations/migrate', 'MigrationController@migrate');
         Route::get('migrations/seed', 'MigrationController@seed');
+        
         
     } catch (Exception $e) {
 
