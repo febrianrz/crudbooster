@@ -472,6 +472,7 @@ class Cms_synctableSeeder extends Seeder
 {
     public function run()
     {
+<<<<<<< HEAD
 
         if (DB::table('cms_sync_tables')->count() == 0) {
             DB::table('cms_sync_tables')->insert([
@@ -512,6 +513,107 @@ class Cms_synctableSeeder extends Seeder
                 ],
             ]);
         }
+=======
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_menus',
+        ],[
+            'column_key'    => 'type,path',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsMenuExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsMenuImport',
+        ]);
+        
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_moduls',
+        ],[
+            'column_key'    => 'path,table_name',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsModulExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsModulImport',
+        ]);
+
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_privileges',
+        ],[
+            'column_key'    => 'name',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsPrivilegesExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsPrivilegesImport',
+            
+        ]);
+
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_settings',
+        ],[
+            'column_key'    => 'name',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsSettingExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsSettingImport',
+        ]);
+
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_sync_tables',
+        ],[
+            'column_key'    => 'table_name',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsSyncTableExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsSyncTableImport',
+        ]);
+
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_email_templates',
+        ],[
+            'column_key'    => 'slug',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsEmailTemplateExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsEmailTemplateImport',
+        ]);
+
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_printout_templates',
+        ],[
+            'column_key'    => 'slug',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsPrintoutTemplateExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsPrintoutTemplateImport',
+        ]);
+
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_privileges_roles',
+        ],[
+            'column_key'    => 'slug',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsPrivilegesRolesExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsPrivilegesRolesImport',
+        ]);
+
+        DB::table('cms_sync_tables')->updateOrInsert([
+            'table_name'    => 'cms_menus_privileges',
+        ],[
+            'column_key'    => 'slug',
+            'is_active'     => 1,
+            'created_at'    => date('Y-m-d H:i:s'),
+            'approach'      => 2,
+            'export_path'   => 'crocodicstudio\crudbooster\exports\CmsMenusPrivilegesExport',
+            'import_path'   => 'crocodicstudio\crudbooster\imports\CmsMenusPrivilegesImport',
+        ]);
+>>>>>>> master
     }
 }
 
