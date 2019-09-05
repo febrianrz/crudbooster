@@ -1,4 +1,4 @@
-<div class="modal fade" id="{{ $modal_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="{{ $modal_id }}" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog {{ $modal_size }}" role="document">
         <form action="{{ isset($modal_action)?$modal_action:null }}" class="form" method="{{ isset($modal_method)?$modal_method:'GET' }}"  enctype="multipart/form-data">
             @csrf
