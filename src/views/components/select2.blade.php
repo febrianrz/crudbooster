@@ -1,7 +1,9 @@
 <div class="form-group">
     <label for=""><h5>{{ $label }}</h5></label>
     <select name="{{ $name }}" id="id-{{ $name }}" class="form-control {{ isset($class)?$class:null }}" style="width:100%">
-        
+        @if(isset($default) && is_array($default))
+        <option value="{{ $default[0] }}">{{ $default[1] }}</option>
+        @endif
     </select>
 </div>
 
