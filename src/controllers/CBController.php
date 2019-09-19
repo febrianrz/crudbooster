@@ -269,6 +269,7 @@ class CBController extends Controller
         $join_table_temp = [];
         $table = $this->table;
         $columns_table = $this->columns_table;
+        
         foreach ($columns_table as $index => $coltab) {
 
             $join = @$coltab['join'];
@@ -307,7 +308,7 @@ class CBController extends Controller
             } else {
                 $table = $this->table;
             }
-
+            // dd($columns_table);
             if ($join) {
 
                 $join_exp = explode(',', $join);
@@ -338,7 +339,7 @@ class CBController extends Controller
                 $columns_table[$index]['field'] = $join_alias.'_'.$join_column;
                 $columns_table[$index]['field_with'] = $join_alias.'.'.$join_column;
                 $columns_table[$index]['field_raw'] = $join_column;
-
+                
                 @$join_table1 = $join_exp[2];
                 @$joinTable1PK = CB::pk($join_table1);
                 @$join_column1 = $join_exp[3];
@@ -363,12 +364,14 @@ class CBController extends Controller
                 }
             } else {
 
-                if(isset($field_array[1])) {                    
+                if(isset($field_array[1])) {      
+                    
                     $result->addselect($table.'.'.$field.' as '.$table.'_'.$field);
                     $columns_table[$index]['type_data'] = CRUDBooster::getFieldType($table, $field);
                     $columns_table[$index]['field'] = $table.'_'.$field;
                     $columns_table[$index]['field_raw'] = $table.'.'.$field;
                 }else{
+                    // dd($columns_table[$index]['with_prefix']);
                     $result->addselect($table.'.'.$field);
                     $columns_table[$index]['type_data'] = CRUDBooster::getFieldType($table, $field);
                     $columns_table[$index]['field'] = $field;

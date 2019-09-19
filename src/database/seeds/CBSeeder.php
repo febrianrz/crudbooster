@@ -57,6 +57,8 @@ class CmsEmailTemplates extends Seeder
                 'from_email' => 'system@crudbooster.com',
                 'cc_email' => null,
             ]);
+
+        
     }
 }
 
@@ -157,6 +159,58 @@ class Cms_settingsSeeder extends Seeder
                 'content' => '',
                 'content_input_type' => 'text',
                 'group_setting' => trans('crudbooster.email_setting'),
+                'dataenum' => null,
+                'helper' => null,
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'email_header_app',
+                'label' => 'Email Header',
+                'content' => 'ALTBooster',
+                'content_input_type' => 'text',
+                'group_setting' => trans('crudbooster.email_setting'),
+                'dataenum' => null,
+                'helper' => null,
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'email_footer_top',
+                'label' => 'Email Footer Top',
+                'content' => 'Powered By: ALTBooster',
+                'content_input_type' => 'text',
+                'group_setting' => trans('crudbooster.email_setting'),
+                'dataenum' => null,
+                'helper' => null,
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'email_footer_bottom',
+                'label' => 'Email Footer Bottom',
+                'content' => 'ALTBooster',
+                'content_input_type' => 'text',
+                'group_setting' => trans('crudbooster.email_setting'),
+                'dataenum' => null,
+                'helper' => null,
+            ],
+
+            //Telegram Setting
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'telegram_api_token',
+                'label' => 'API Token',
+                'content' => '',
+                'content_input_type' => 'text',
+                'group_setting' => 'Telegram Setting',
+                'dataenum' => null,
+                'helper' => null,
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'telegram_channel_id',
+                'label' => 'Channel ID',
+                'content' => '',
+                'content_input_type' => 'text',
+                'group_setting' => 'Telegram Setting',
                 'dataenum' => null,
                 'helper' => null,
             ],
@@ -525,6 +579,17 @@ class Cms_modulsSeeder extends Seeder
                 'table_name' => 'cms_email_logs',
                 'controller' => 'LogEmailsController',
                 'is_protected' => 1,
+                'is_active' => 1,
+            ],
+            [
+
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'Kirim Email',
+                'icon' => 'fa fa-envelope',
+                'path' => 'sent_email',
+                'table_name' => 'cms_email_sents',
+                'controller' => 'SentEmailController',
+                'is_protected' => 0,
                 'is_active' => 1,
             ],
         ];

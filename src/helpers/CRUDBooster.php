@@ -543,9 +543,9 @@ class CRUDBooster
     public static function getCurrentId()
     {
         $id = Session::get('current_row_id');
-        $id = intval($id);
+        $id = ($id);
         $id = (! $id) ? Request::segment(4) : $id;
-        $id = intval($id);
+        $id = ($id);
 
         return $id;
     }
@@ -740,12 +740,12 @@ class CRUDBooster
         $template = $config['template'];
 
         $template = CRUDBooster::first('cms_email_templates', ['slug' => $template]);
-        $html = $template->content;
+        $html = (isset($config['html'])?$config['html']:$template->content);
         foreach ($data as $key => $val) {
             $html = str_replace('['.$key.']', $val, $html);
             $template->subject = str_replace('['.$key.']', $val, $template->subject);
         }
-        $subject = $template->subject;
+        $subject = isset($config['subject'])?$config['subject']:$template->subject;
         $attachments = ($config['attachments']) ?: [];
 
         if ($config['send_at'] != null) {

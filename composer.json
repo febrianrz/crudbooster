@@ -33,7 +33,8 @@
         "imanghafoori/laravel-heyman": "2.*",
         "imanghafoori/laravel-widgetize": "1.8.*",
         "rap2hpoutre/laravel-log-viewer": "^1.3",
-        "phpoffice/phpword": "v0.16.*"
+        "phpoffice/phpword": "v0.16.*",
+        "irazasyed/telegram-bot-sdk": "^2.0"
     },
     "autoload": {
         "psr-4": {
