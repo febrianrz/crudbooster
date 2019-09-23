@@ -2,15 +2,17 @@
 
 namespace crocodicstudio\crudbooster\helpers;
 
-use Cache;
 use DB;
+use Cache;
 use Image;
-use Request;
 use Route;
 use Schema;
+use Request;
 use Session;
 use Storage;
 use Validator;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use Illuminate\Console\Scheduling\Schedule;
 
 class CRUDBooster
 {
@@ -1994,5 +1996,32 @@ class CRUDBooster
 
     public static function setLogEmail($data){
         DB::table('cms_email_logs')->insert($data);
+    }
+
+    public static function setHistoryCron($id, $is_success, $message=null, $start_at, $end_at=null){
+        $cron = DB::table('cms_crons')->find($id);
+        if($end_at == null){
+            $end_at = date('Y-m-d H:i:s');
+        }
+        if($cron){
+            DB::table('cms_cron_histories')->insert([
+                'cms_cron_id'   => $id,
+                'start_at'      => $start_at,
+                'end_at'        => $end_at,
+                'is_success'    => $is_success,
+                'response'      => $message,
+                'created_at'    => date('Y-m-d H:i:s')
+            ]);
+        }
+    }
+
+    public static function sendTelegram($message){
+        
+        Telegram::sendMessage([
+            'chat_id' => CRUDBooster::getSetting('telegram_channel_id'),
+            'parse_mode' => 'HTML',
+            'text' => $message
+        ]);
+ 
     }
 }

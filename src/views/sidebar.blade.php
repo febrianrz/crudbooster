@@ -159,6 +159,10 @@
                     </li>
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/sent_email*')) ? 'active' : '' }}"><a href='{{Route("SentEmailControllerGetIndex")}}'><i
                         class='fa fa-envelope'></i> <span>{{ __('Kirim Email') }}</span></a></li>
+                    <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/cron*')) ? 'active' : '' }}"><a href='{{Route("CronControllerGetIndex")}}'><i
+                            class='fa fa-gear'></i> <span>{{ __('Cron (underdevelopment)') }}</span></a></li>
+                    <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/cron_histories*')) ? 'active' : '' }}"><a href='{{Route("CronHistoriesControllerGetIndex")}}'><i
+                                class='fa fa-gear'></i> <span>{{ __('Cron Histories') }}</span></a></li>
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/printout_templates*')) ? 'active' : '' }}"><a href='{{Route("PrintoutTemplateControllerGetIndex")}}'><i
                         class='fa fa-file'></i> <span>{{ __('Template Print') }}</span></a></li>
                     <li class="{{ (Request::is(config('crudbooster.ADMIN_PATH').'/migrations*')) ? 'active' : '' }}"><a href='{{Route("MigrationControllerGetIndex")}}'><i

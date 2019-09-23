@@ -30,15 +30,18 @@ class FileController extends Controller
                 $fullFilePath = 'uploads'.DIRECTORY_SEPARATOR.$one;
                 $filename = $one;
             }
-    
+            
             $fullStoragePath = storage_path('app/'.$fullFilePath);
+            dd($fullStoragePath);
+            if (! Storage::exists($fullStoragePath)) {
+                // dd(public_path('vendor/crudbooster/avatar.jpg'));
+                return Response::file(public_path('vendor/crudbooster/no_image.jpg'));
+            }
             $lifetime = 31556926; // One year in seconds
     
             $handler = new \Symfony\Component\HttpFoundation\File\File(storage_path('app/'.$fullFilePath));
-    
-            if (! Storage::exists($fullFilePath)) {
-                abort(404);
-            }
+            
+            
     
             $extension = strtolower(File::extension($fullStoragePath));
             $images_ext = config('crudbooster.IMAGE_EXTENSIONS', 'jpg,png,gif,bmp');
@@ -116,6 +119,7 @@ class FileController extends Controller
                 }
             }
         } catch(\Exception $e){
+            // dd($e->getMessage());
             return abort(404);
         }
         

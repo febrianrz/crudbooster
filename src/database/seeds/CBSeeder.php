@@ -592,6 +592,27 @@ class Cms_modulsSeeder extends Seeder
                 'is_protected' => 0,
                 'is_active' => 1,
             ],
+            [
+
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'Cron',
+                'icon' => 'fa fa-gear',
+                'path' => 'crons',
+                'table_name' => 'cms_crons',
+                'controller' => 'CronController',
+                'is_protected' => 0,
+                'is_active' => 1,
+            ],
+            [
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => 'Cron History',
+                'icon' => 'fa fa-gear',
+                'path' => 'cron_histories',
+                'table_name' => 'cms_cron_histories',
+                'controller' => 'CronHistoriesController',
+                'is_protected' => 1,
+                'is_active' => 1,
+            ],
         ];
 
         foreach ($data as $k => $d) {
