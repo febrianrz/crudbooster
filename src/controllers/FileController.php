@@ -32,11 +32,11 @@ class FileController extends Controller
             }
             
             $fullStoragePath = storage_path('app/'.$fullFilePath);
-            dd($fullStoragePath);
-            if (! Storage::exists($fullStoragePath)) {
-                // dd(public_path('vendor/crudbooster/avatar.jpg'));
-                return Response::file(public_path('vendor/crudbooster/no_image.jpg'));
-            }
+            // dd($fullStoragePath);
+            // if (! Storage::exists($fullStoragePath)) {
+            //     // dd(public_path('vendor/crudbooster/avatar.jpg'));
+            //     return Response::file(public_path('vendor/crudbooster/no_image.jpg'));
+            // }
             $lifetime = 31556926; // One year in seconds
     
             $handler = new \Symfony\Component\HttpFoundation\File\File(storage_path('app/'.$fullFilePath));
